@@ -57,7 +57,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
                 decoding="async"
                 width={1376}
                 height={768}
-                src="/assets/img/livro-nutricao-alem-da-alimentacao.jpg"
+                src="/assets/img/livro-nutricao-muito-alem-da-alimentacao.jpg"
                 alt="Livro Nutrição muito além da alimentação - Georgia Bachi | Amazon"
               />
             </a>
