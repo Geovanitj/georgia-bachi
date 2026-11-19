@@ -10,6 +10,7 @@ interface StoreCardProps {
 export function StoreCard({ store }: StoreCardProps) {
   const [toastVisible, setToastVisible] = useState(false);
   const [copiedCode, setCopiedCode] = useState(store.cupom || 'MAISROTINA');
+  const [copiedRecently, setCopiedRecently] = useState(false);
 
   const handleCardClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,19 +35,18 @@ export function StoreCard({ store }: StoreCardProps) {
       console.error('Falha ao copiar cupom:', err);
     }
 
-    // 2. Exibe o toast animado
+    // 2. Exibe o toast animado e feedback no botão (sem redirecionar)
     setCopiedCode(cupom);
     setToastVisible(true);
+    setCopiedRecently(true);
+
     setTimeout(() => {
       setToastVisible(false);
     }, 3000);
 
-    // 3. Se houver link externo válido, abre a loja em nova aba para o usuário já aproveitar
-    if (store.link && store.link !== '#') {
-      setTimeout(() => {
-        window.open(store.link, '_blank', 'noopener,noreferrer');
-      }, 400);
-    }
+    setTimeout(() => {
+      setCopiedRecently(false);
+    }, 3000);
   };
 
   return (
@@ -57,7 +57,7 @@ export function StoreCard({ store }: StoreCardProps) {
           onClick={handleCardClick}
           role="button"
           tabIndex={0}
-          aria-label={`Copiar cupom ${store.cupom} da ${store.nome} e abrir loja`}
+          aria-label={`Copiar cupom de desconto ${store.cupom} da ${store.nome}`}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               handleCardClick(e as any);
@@ -85,7 +85,9 @@ export function StoreCard({ store }: StoreCardProps) {
 
             {/* Botão Dourado Metálico */}
             <div className="dynamic-card-btn-wrap">
-              <span className="dynamic-card-btn">CLIQUE E APROVEITE</span>
+              <span className="dynamic-card-btn">
+                {copiedRecently ? '✓ CUPOM COPIADO!' : 'COPIAR CUPOM'}
+              </span>
             </div>
           </div>
         </div>
