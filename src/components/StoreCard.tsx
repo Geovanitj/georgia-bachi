@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { StoreInfo } from '@/lib/supabase';
+import { trackEvent, trackLead } from '@/lib/analytics';
 
 interface StoreCardProps {
   store: StoreInfo;
@@ -35,7 +36,17 @@ export function StoreCard({ store }: StoreCardProps) {
       console.error('Falha ao copiar cupom:', err);
     }
 
-    // 2. Exibe o toast animado e feedback no botão (sem redirecionar)
+    // 2. Dispara evento de conversão / Lead para ADS (Meta Pixel, Google, TikTok, GTM)
+    trackEvent('copy_coupon', {
+      store: store.nome,
+      coupon: cupom,
+    });
+    trackLead({
+      content_name: store.nome,
+      coupon: cupom,
+    });
+
+    // 3. Exibe o toast animado e feedback no botão (sem redirecionar)
     setCopiedCode(cupom);
     setToastVisible(true);
     setCopiedRecently(true);

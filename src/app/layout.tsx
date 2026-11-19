@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { Analytics, AnalyticsNoScript } from '@/components/Analytics';
 
 export const metadata: Metadata = {
   title: 'Georgia Bachi | Saúde, maternidade e autocuidado',
@@ -26,6 +27,12 @@ export const metadata: Metadata = {
     title: 'Georgia Bachi | Saúde, maternidade e autocuidado',
     description: 'Nutricionista e Escritora - Saúde, maternidade e autocuidado',
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION
+      ? { 'facebook-domain-verification': process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION }
+      : undefined,
+  },
 };
 
 export const viewport: Viewport = {
@@ -49,7 +56,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AnalyticsNoScript />
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

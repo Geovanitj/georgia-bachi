@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import { StoreInfo } from '@/lib/supabase';
 import { StoreCard } from './StoreCard';
+import { trackOutboundClick } from '@/lib/analytics';
 
 interface InstabioViewProps {
   store?: StoreInfo | null;
@@ -34,6 +37,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               href="https://share.google/owEwOCKH9DVGxq7XM"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick('Amazon', 'Livro Dieta com Whey Protein')}
             >
               <img
                 decoding="async"
@@ -51,6 +55,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               href="https://share.google/ob3URqkhsxMU9v6ZY"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick('Amazon', 'Livro Nutrição muito além da alimentação')}
             >
               <img
                 loading="lazy"
@@ -69,6 +74,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               href="https://youtube.com/@georgiabachi?si=7XKMUK6xe_bGDN53"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick('YouTube', 'Canal no YouTube')}
             >
               <img
                 loading="lazy"
@@ -87,6 +93,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               href="https://www.instagram.com/georgiabachi/"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackOutboundClick('Instagram', 'Perfil no Instagram')}
             >
               <img
                 loading="lazy"
