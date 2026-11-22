@@ -15,37 +15,16 @@ export interface StoreInfo {
   logo?: string | null;
 }
 
-export const FALLBACK_LOJAS: Record<string, StoreInfo> = {
-  gocase: {
-    nome: "Gocase",
-    slug: "gocase",
-    subtitulo: "ESTILO E PRATICIDADE NA SUA ROTINA",
-    cupom: "MAISROTINA",
-    link: "https://www.gocase.com.br",
-    acao: "copiar_cupom",
-    logo: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/170/367/themes/amazonas/logo.png"
-  },
-  gshield: {
-    nome: "Gshield",
-    slug: "gshield",
-    subtitulo: "PROTEÇÃO E TECNOLOGIA PARA SEU DIA A DIA",
-    cupom: "ROTINA",
-    link: "https://www.gorilashield.com.br/",
-    acao: "copiar_cupom",
-    logo: "https://images.gorilashield.com.br/static/logo-gorila.svg"
-  }
-};
-
 /**
- * Busca a loja e o cupom de desconto real no Supabase.
+ * Busca a loja e o cupom de desconto 100% dinâmico no Supabase.
  * Tabelas: 'lojas' e 'coupons'
  */
-export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
-  const normalizedSlug = (slugParam || 'gocase').toLowerCase().trim();
-  const defaultFallback = FALLBACK_LOJAS[normalizedSlug] || FALLBACK_LOJAS.gocase;
+export async function getStoreData(slugParam?: string): Promise<StoreInfo | null> {
+  if (!slugParam) return null;
+  const normalizedSlug = slugParam.toLowerCase().trim();
 
   try {
-    // 1. Busca a loja pelo slug na tabela 'lojas' (busca todas as colunas para capturar logo)
+    // 1. Busca a loja pelo slug na tabela 'lojas'
     const { data: loja, error: lojaError } = await supabase
       .from('lojas')
       .select('*')
@@ -53,7 +32,10 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
       .maybeSingle();
 
     if (lojaError || !loja) {
-      return defaultFallback;
+      if (lojaError) {
+        console.error(`Erro ao buscar loja "${normalizedSlug}" no Supabase:`, lojaError);
+      }
+      return null;
     }
 
     // 2. Busca os cupons ativos dessa loja na tabela 'coupons'
@@ -64,17 +46,27 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
       .eq('active', true)
       .order('priority', { ascending: false });
 
-    // Encontra o primeiro cupom válido que tenha um código (não vazio)
+    if (couponError) {
+      console.error(`Erro ao buscar cupons para "${normalizedSlug}":`, couponError);
+    }
+
+    // Encontra o primeiro cupom ativo válido que tenha um código
     const validCoupon = (coupons || []).find((c) => c.code && c.code.trim().length > 0);
 
-    const cupomCode = validCoupon?.code || defaultFallback.cupom;
+    const cupomCode = validCoupon?.code || (loja as any)?.cupom || (loja as any)?.coupon || '';
+    if (!cupomCode) {
+      console.warn(`Loja "${normalizedSlug}" encontrada no Supabase, mas sem cupom ativo com código.`);
+      return null;
+    }
+
     const subtitulo =
       (validCoupon?.discount ? validCoupon.discount.toUpperCase() : null) ||
       loja.description ||
-      defaultFallback.subtitulo;
-    const linkUrl = validCoupon?.url || loja.site_url || defaultFallback.link;
+      'CUPOM DE DESCONTO EXCLUSIVO';
 
-    // Captura a logo de qualquer coluna comum no Supabase (logo_url, logo, image_url, etc.)
+    const linkUrl = validCoupon?.url || loja.site_url || (loja as any)?.link || '#';
+
+    // Captura a logo de qualquer coluna comum no Supabase
     const logoUrl =
       (loja as any)?.logo_url ||
       (loja as any)?.logo ||
@@ -83,11 +75,10 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
       (validCoupon as any)?.logo_url ||
       (validCoupon as any)?.logo ||
       (validCoupon as any)?.image_url ||
-      defaultFallback.logo ||
       null;
 
     return {
-      nome: loja.name || defaultFallback.nome,
+      nome: loja.name || normalizedSlug,
       slug: loja.slug || normalizedSlug,
       subtitulo: subtitulo,
       cupom: cupomCode,
@@ -97,6 +88,6 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
     };
   } catch (error) {
     console.error(`Erro ao carregar dados do Supabase para ${normalizedSlug}:`, error);
-    return defaultFallback;
+    return null;
   }
 }

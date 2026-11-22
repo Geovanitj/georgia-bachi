@@ -12,6 +12,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { loja } = await params;
   const store = await getStoreData(loja);
 
+  if (!store) {
+    return {
+      title: 'Georgia Bachi | Nutricionista e Escritora',
+      description: 'Georgia Bachi - Saúde, maternidade e autocuidado.',
+    };
+  }
+
   return {
     title: `Georgia Bachi | ${store.nome}`,
     description: `Aproveite o cupom exclusivo da ${store.nome}: ${store.cupom}. Georgia Bachi - Saúde, maternidade e autocuidado.`,
@@ -22,5 +29,5 @@ export default async function StorePage({ params }: PageProps) {
   const { loja } = await params;
   const store = await getStoreData(loja);
 
-  return <InstabioView store={store} showStoreCard={true} />;
+  return <InstabioView store={store} showStoreCard={!!store} />;
 }

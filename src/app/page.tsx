@@ -11,10 +11,10 @@ export default async function HomePage({
   const resolvedSearchParams = await searchParams;
   const lojaParam = resolvedSearchParams?.loja || resolvedSearchParams?.store;
 
-  // Se o usuário passou um parâmetro explícito (?loja=gocase), exibe o card da loja
+  // Se o usuário passou um parâmetro explícito (?loja=slug), busca no Supabase
   if (lojaParam) {
     const store = await getStoreData(lojaParam);
-    return <InstabioView store={store} showStoreCard={true} />;
+    return <InstabioView store={store} showStoreCard={!!store} />;
   }
 
   // Na Home padrão (/), exibe apenas os cards institucionais (livros, YouTube, Instagram) sem o card de cupom
