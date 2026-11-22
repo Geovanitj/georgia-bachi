@@ -63,6 +63,14 @@ export function StoreCard({ store }: StoreCardProps) {
   return (
     <>
       <div className="instabio-card">
+        {/* Badge de Status / Verificação Ativa */}
+        <div className="coupon-status-badge">
+          <span className="coupon-status-dot" aria-hidden="true" />
+          <span className="coupon-status-text">
+            Cupom <strong>{store.cupom}</strong> verificado e ativo hoje na {store.nome}
+          </span>
+        </div>
+
         <div
           className="dynamic-coupon-card"
           onClick={handleCardClick}
