@@ -3,6 +3,7 @@
 import React from 'react';
 import { StoreInfo } from '@/lib/supabase';
 import { StoreCard } from './StoreCard';
+import { LegalFooter } from './LegalFooter';
 import { trackOutboundClick } from '@/lib/analytics';
 
 interface InstabioViewProps {
@@ -105,6 +106,9 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               />
             </a>
           </div>
+
+          {/* 6. Rodapé com Copyright e Modais de Privacidade / Termos */}
+          <LegalFooter />
         </div>
       </section>
 
