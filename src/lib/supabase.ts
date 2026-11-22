@@ -12,6 +12,7 @@ export interface StoreInfo {
   cupom: string;
   link: string;
   acao: 'copiar_cupom' | 'link';
+  logo?: string | null;
 }
 
 export const FALLBACK_LOJAS: Record<string, StoreInfo> = {
@@ -21,7 +22,8 @@ export const FALLBACK_LOJAS: Record<string, StoreInfo> = {
     subtitulo: "ESTILO E PRATICIDADE NA SUA ROTINA",
     cupom: "MAISROTINA",
     link: "https://www.gocase.com.br",
-    acao: "copiar_cupom"
+    acao: "copiar_cupom",
+    logo: "https://d3ugyf2ht6aenh.cloudfront.net/stores/001/170/367/themes/amazonas/logo.png"
   },
   gshield: {
     nome: "Gshield",
@@ -29,7 +31,8 @@ export const FALLBACK_LOJAS: Record<string, StoreInfo> = {
     subtitulo: "PROTEÇÃO E TECNOLOGIA PARA SEU DIA A DIA",
     cupom: "ROTINA",
     link: "https://www.gorilashield.com.br/",
-    acao: "copiar_cupom"
+    acao: "copiar_cupom",
+    logo: "https://images.gorilashield.com.br/static/logo-gorila.svg"
   }
 };
 
@@ -42,10 +45,10 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
   const defaultFallback = FALLBACK_LOJAS[normalizedSlug] || FALLBACK_LOJAS.gocase;
 
   try {
-    // 1. Busca a loja pelo slug na tabela 'lojas'
+    // 1. Busca a loja pelo slug na tabela 'lojas' (busca todas as colunas para capturar logo)
     const { data: loja, error: lojaError } = await supabase
       .from('lojas')
-      .select('id, name, slug, site_url, description')
+      .select('*')
       .eq('slug', normalizedSlug)
       .maybeSingle();
 
@@ -56,7 +59,7 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
     // 2. Busca os cupons ativos dessa loja na tabela 'coupons'
     const { data: coupons, error: couponError } = await supabase
       .from('coupons')
-      .select('code, discount, description, url, active')
+      .select('*')
       .eq('loja_id', loja.id)
       .eq('active', true)
       .order('priority', { ascending: false });
@@ -67,8 +70,21 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
     const cupomCode = validCoupon?.code || defaultFallback.cupom;
     const subtitulo =
       (validCoupon?.discount ? validCoupon.discount.toUpperCase() : null) ||
+      loja.description ||
       defaultFallback.subtitulo;
     const linkUrl = validCoupon?.url || loja.site_url || defaultFallback.link;
+
+    // Captura a logo de qualquer coluna comum no Supabase (logo_url, logo, image_url, etc.)
+    const logoUrl =
+      (loja as any)?.logo_url ||
+      (loja as any)?.logo ||
+      (loja as any)?.image_url ||
+      (loja as any)?.brand_logo ||
+      (validCoupon as any)?.logo_url ||
+      (validCoupon as any)?.logo ||
+      (validCoupon as any)?.image_url ||
+      defaultFallback.logo ||
+      null;
 
     return {
       nome: loja.name || defaultFallback.nome,
@@ -76,7 +92,8 @@ export async function getStoreData(slugParam?: string): Promise<StoreInfo> {
       subtitulo: subtitulo,
       cupom: cupomCode,
       link: linkUrl,
-      acao: 'copiar_cupom'
+      acao: 'copiar_cupom',
+      logo: logoUrl
     };
   } catch (error) {
     console.error(`Erro ao carregar dados do Supabase para ${normalizedSlug}:`, error);

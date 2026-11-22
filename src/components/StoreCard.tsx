@@ -12,6 +12,7 @@ export function StoreCard({ store }: StoreCardProps) {
   const [toastVisible, setToastVisible] = useState(false);
   const [copiedCode, setCopiedCode] = useState(store.cupom || 'MAISROTINA');
   const [copiedRecently, setCopiedRecently] = useState(false);
+  const [logoError, setLogoError] = useState(false);
 
   const handleCardClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -88,9 +89,18 @@ export function StoreCard({ store }: StoreCardProps) {
           <div className="dynamic-bokeh dynamic-bokeh-bottom-left" />
 
           <div className="dynamic-card-inner">
-            {/* Nome da Marca Dinâmica */}
+            {/* Logo da Marca Dinâmica (ou Nome em Texto Dourado) */}
             <div className="dynamic-card-brand-wrap">
-              <span className="dynamic-card-brand">{store.nome}</span>
+              {store.logo && !logoError ? (
+                <img
+                  src={store.logo}
+                  alt={`Logo ${store.nome}`}
+                  className="dynamic-card-logo"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <span className="dynamic-card-brand">{store.nome}</span>
+              )}
             </div>
 
             {/* Slogan / Subtítulo Dinâmico */}
