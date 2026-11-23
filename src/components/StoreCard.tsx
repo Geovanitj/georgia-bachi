@@ -73,7 +73,7 @@ export function StoreCard({ store }: StoreCardProps) {
         </div>
 
         <div
-          className="dynamic-coupon-card"
+          className="dynamic-coupon-card coupon-card"
           onClick={handleCardClick}
           role="button"
           tabIndex={0}
@@ -89,10 +89,10 @@ export function StoreCard({ store }: StoreCardProps) {
           <div className="dynamic-bokeh dynamic-bokeh-bottom-left" />
 
           <div className="dynamic-card-inner">
-            {/* Logo da Marca Dinâmica em Badge Branco Arredondado (ou Nome em Texto) */}
+            {/* Logo da Marca Dinâmica */}
             <div className="dynamic-card-brand-wrap">
               {store.logo && !logoError ? (
-                <div className="dynamic-card-logo-badge">
+                <div className="coupon-card-logo-box">
                   <img
                     src={store.logo}
                     alt={`Logo ${store.nome}`}

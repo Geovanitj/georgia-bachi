@@ -21,6 +21,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --border: 240 5.9% 90%;
+  --primary: 158 64% 45%;
+}
+
 html,
 body {
   margin: 0;
@@ -200,47 +205,58 @@ body {
 
 /* Nome / Logo da Marca */
 .dynamic-card-brand-wrap {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 80px;
 }
 
-/* Quadrado Branco para a Logo (preenchimento total do quadrado externo) */
+@media (min-width: 640px) {
+  .dynamic-card-brand-wrap {
+    min-height: 96px;
+  }
+}
+
+/* Container da Logo (coupon-card-logo-box) */
+.coupon-card-logo-box,
 .dynamic-card-logo-badge {
+  width: 80px;            /* 96px em telas >= 640px (sm:w-24) */
+  height: 80px;           /* 96px em telas >= 640px (sm:h-24) */
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border-radius: 12px;    /* rounded-xl */
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 120px;
-  height: 120px;
-  background-color: #FFFFFF;
-  border-radius: 16px;
-  padding: 10px;
-  overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 255, 255, 0.15);
-  /*border: 1.5px solid rgba(255, 255, 255, 0.95);*/
+  padding: 8px;           /* p-2 */
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease;
   box-sizing: border-box;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+@media (min-width: 640px) {
+  .coupon-card-logo-box,
+  .dynamic-card-logo-badge {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+.coupon-card:hover .coupon-card-logo-box,
+.dynamic-coupon-card:hover .coupon-card-logo-box,
+.coupon-card:hover .dynamic-card-logo-badge,
 .dynamic-coupon-card:hover .dynamic-card-logo-badge {
-  transform: scale(1.04);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55), 0 0 18px rgba(212, 175, 55, 0.4);
+  border-color: hsl(var(--primary) / 0.4);
 }
 
+.coupon-card-logo-box img,
+.dynamic-card-logo-badge img,
 .dynamic-card-logo {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transform: scale(2.15);
-  transform-origin: center;
-  display: block;
-  transition: transform 0.25s ease;
-}
-
-.dynamic-coupon-card:hover .dynamic-card-logo {
-  transform: scale(2.22);
+  object-fit: contain;
 }
 
 .dynamic-card-brand {
@@ -407,15 +423,8 @@ body {
   }
 
   .dynamic-card-brand-wrap {
-    min-height: 100px;
-    margin-bottom: 8px;
-  }
-
-  .dynamic-card-logo-badge {
-    width: 100px;
-    height: 100px;
-    border-radius: 14px;
-    padding: 0;
+    min-height: 80px;
+    margin-bottom: 6px;
   }
 
   .dynamic-card-brand {
