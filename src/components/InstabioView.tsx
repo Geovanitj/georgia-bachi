@@ -41,10 +41,11 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
               onClick={() => trackOutboundClick('Amazon', 'Livro Dieta com Whey Protein')}
             >
               <img
+                loading="lazy"
                 decoding="async"
                 width={1376}
                 height={768}
-                src="/assets/img/livro-dieta-whey-protein.jpg"
+                src="/assets/img/livro-dieta-whey-protein.webp"
                 alt="Livro Dieta com Whey Protein - Georgia Bachi | Amazon"
               />
             </a>
@@ -63,7 +64,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
                 decoding="async"
                 width={1376}
                 height={768}
-                src="/assets/img/livro-nutricao-real.jpg"
+                src="/assets/img/livro-nutricao-real.webp"
                 alt="Livro Nutrição muito além da alimentação - Georgia Bachi | Amazon"
               />
             </a>
@@ -82,7 +83,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
                 decoding="async"
                 width={1376}
                 height={768}
-                src="/assets/img/canal-youtube-georgia.jpg"
+                src="/assets/img/canal-youtube-georgia.webp"
                 alt="Canal no YouTube - Georgia Bachi"
               />
             </a>
@@ -101,7 +102,7 @@ export function InstabioView({ store, showStoreCard = true }: InstabioViewProps)
                 decoding="async"
                 width={1376}
                 height={768}
-                src="/assets/img/instagram-georgia.jpg"
+                src="/assets/img/instagram-georgia.webp"
                 alt="Instagram @georgiabachi - Siga no Instagram"
               />
             </a>
