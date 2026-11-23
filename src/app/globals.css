@@ -204,35 +204,34 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 84px;
+  min-height: 96px;
 }
 
-/* Badge Branco Arredondado para a Logo */
+/* Quadrado Branco para a Logo (preenchimento total, sem aspecto de círculo) */
 .dynamic-card-logo-badge {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 86px;
-  height: 86px;
+  width: 96px;
+  height: 96px;
   background-color: #FFFFFF;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   box-sizing: border-box;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .dynamic-coupon-card:hover .dynamic-card-logo-badge {
-  transform: scale(1.05);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.35);
+  transform: scale(1.04);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.35);
 }
 
 .dynamic-card-logo {
-  max-width: 88%;
-  max-height: 74%;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
@@ -401,15 +400,15 @@ body {
   }
 
   .dynamic-card-brand-wrap {
-    min-height: 72px;
+    min-height: 80px;
     margin-bottom: 6px;
   }
 
   .dynamic-card-logo-badge {
-    width: 74px;
-    height: 74px;
-    border-radius: 17px;
-    padding: 8px;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    padding: 3px;
   }
 
   .dynamic-card-brand {
