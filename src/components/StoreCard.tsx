@@ -89,15 +89,17 @@ export function StoreCard({ store }: StoreCardProps) {
           <div className="dynamic-bokeh dynamic-bokeh-bottom-left" />
 
           <div className="dynamic-card-inner">
-            {/* Logo da Marca Dinâmica (ou Nome em Texto Dourado) */}
+            {/* Logo da Marca Dinâmica em Badge Branco Arredondado (ou Nome em Texto) */}
             <div className="dynamic-card-brand-wrap">
               {store.logo && !logoError ? (
-                <img
-                  src={store.logo}
-                  alt={`Logo ${store.nome}`}
-                  className="dynamic-card-logo"
-                  onError={() => setLogoError(true)}
-                />
+                <div className="dynamic-card-logo-badge">
+                  <img
+                    src={store.logo}
+                    alt={`Logo ${store.nome}`}
+                    className="dynamic-card-logo"
+                    onError={() => setLogoError(true)}
+                  />
+                </div>
               ) : (
                 <span className="dynamic-card-brand">{store.nome}</span>
               )}
