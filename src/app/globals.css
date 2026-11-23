@@ -214,18 +214,18 @@ body {
   }
 }
 
-/* Container da Logo Padronizado para Todas as Lojas */
+/* Container da Logo Padronizado para Todas as Lojas (preenchimento total do quadrado) */
 .coupon-card-logo-box,
 .dynamic-card-logo-badge {
-  width: 80px;            /* 96px em telas >= 640px (sm:w-24) */
-  height: 80px;           /* 96px em telas >= 640px (sm:h-24) */
+  width: 80px;
+  height: 80px;
   flex-shrink: 0;
   background-color: #ffffff;
-  border-radius: 12px;    /* rounded-xl */
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;           /* p-2 */
+  padding: 0;
   border: 1px solid hsl(var(--border, 240 5.9% 90%));
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: border-color 0.2s ease, transform 0.2s ease;
@@ -238,7 +238,7 @@ body {
   .dynamic-card-logo-badge {
     width: 96px;
     height: 96px;
-    padding: 10px;
+    padding: 0;
   }
 }
 
@@ -256,7 +256,9 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
-  object-fit: contain;
+  object-fit: cover;
+  transform: scale(1.18);
+  transform-origin: center;
   display: block;
 }
 
@@ -433,7 +435,7 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 12px;
-    padding: 8px;
+    padding: 0;
   }
 
   .dynamic-card-brand {
