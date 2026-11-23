@@ -124,7 +124,7 @@ body {
 .instabio-card img {
   width: 53%;
   max-width: 100%;
-  background-color: #D8DFDB;
+  background-color: #ffffff;
   height: auto;
   display: inline-block;
   vertical-align: middle;
@@ -234,6 +234,7 @@ body {
 }
 
 @media (min-width: 640px) {
+
   .coupon-card-logo-box,
   .dynamic-card-logo-badge {
     width: 96px;
