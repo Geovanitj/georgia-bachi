@@ -13,6 +13,47 @@ export function StoreCard({ store }: StoreCardProps) {
   const [copiedCode, setCopiedCode] = useState(store.cupom || 'MAISROTINA');
   const [copiedRecently, setCopiedRecently] = useState(false);
   const [logoError, setLogoError] = useState(false);
+  const [needsWhiteBg, setNeedsWhiteBg] = useState(false);
+
+  // Detecta se a imagem é um PNG/SVG transparente (sem fundo) para aplicar fundo branco
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 32;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      if (!ctx) return;
+
+      ctx.drawImage(img, 0, 0, 32, 32);
+      const imgData = ctx.getImageData(0, 0, 32, 32).data;
+
+      // Amostra dos 4 cantos da imagem
+      const corner1 = imgData[3];
+      const corner2 = imgData[31 * 4 + 3];
+      const corner3 = imgData[(31 * 32) * 4 + 3];
+      const corner4 = imgData[(31 * 32 + 31) * 4 + 3];
+
+      let transparentCount = 0;
+      for (let i = 3; i < imgData.length; i += 4) {
+        if (imgData[i] < 220) transparentCount++;
+      }
+
+      // Se os cantos forem transparentes ou mais de 8% da imagem tiver transparência:
+      const hasTransparency =
+        corner1 < 180 ||
+        corner2 < 180 ||
+        corner3 < 180 ||
+        corner4 < 180 ||
+        (transparentCount / (32 * 32) > 0.08);
+
+      setNeedsWhiteBg(hasTransparency);
+    } catch {
+      // Fallback seguro caso haja bloqueio de leitura: se a URL for PNG ou SVG, assume transparente
+      const isPngOrSvg = /\.(png|svg)(\?.*)?$/i.test(img.src);
+      setNeedsWhiteBg(isPngOrSvg);
+    }
+  };
 
   const handleCardClick = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -92,11 +133,13 @@ export function StoreCard({ store }: StoreCardProps) {
             {/* Logo da Marca Dinâmica */}
             <div className="dynamic-card-brand-wrap">
               {store.logo && !logoError ? (
-                <div className="coupon-card-logo-box">
+                <div className={`coupon-card-logo-box ${needsWhiteBg ? 'has-white-bg' : ''}`}>
                   <img
                     src={store.logo}
                     alt={`Logo ${store.nome}`}
                     className="dynamic-card-logo"
+                    crossOrigin="anonymous"
+                    onLoad={handleImageLoad}
                     onError={() => setLogoError(true)}
                   />
                 </div>
