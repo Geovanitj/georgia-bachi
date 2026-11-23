@@ -200,11 +200,11 @@ body {
 
 /* Nome / Logo da Marca */
 .dynamic-card-brand-wrap {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 96px;
+  min-height: 120px;
 }
 
 /* Quadrado Branco para a Logo (preenchimento total do quadrado externo) */
@@ -212,35 +212,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 96px;
-  height: 96px;
+  width: 120px;
+  height: 120px;
   background-color: #FFFFFF;
-  border-radius: 14px;
-  padding: 0;
+  border-radius: 16px;
+  padding: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 255, 255, 0.15);
+  /*border: 1.5px solid rgba(255, 255, 255, 0.95);*/
   box-sizing: border-box;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .dynamic-coupon-card:hover .dynamic-card-logo-badge {
   transform: scale(1.04);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55), 0 0 18px rgba(212, 175, 55, 0.4);
 }
 
 .dynamic-card-logo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.6);
+  transform: scale(2.15);
   transform-origin: center;
   display: block;
   transition: transform 0.25s ease;
 }
 
 .dynamic-coupon-card:hover .dynamic-card-logo {
-  transform: scale(1.66);
+  transform: scale(2.22);
 }
 
 .dynamic-card-brand {
@@ -407,14 +407,14 @@ body {
   }
 
   .dynamic-card-brand-wrap {
-    min-height: 80px;
-    margin-bottom: 6px;
+    min-height: 100px;
+    margin-bottom: 8px;
   }
 
   .dynamic-card-logo-badge {
-    width: 80px;
-    height: 80px;
-    border-radius: 12px;
+    width: 100px;
+    height: 100px;
+    border-radius: 14px;
     padding: 0;
   }
 
@@ -548,11 +548,14 @@ body {
 }
 
 @keyframes pulse-dot {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
     box-shadow: 0 0 8px #10B981, 0 0 14px rgba(16, 185, 129, 0.6);
   }
+
   50% {
     transform: scale(1.18);
     opacity: 0.85;
@@ -723,6 +726,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -733,6 +737,7 @@ body {
     opacity: 0;
     transform: scale(0.96) translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -781,5 +786,3 @@ body {
     padding: 9px 20px;
   }
 }
-
-
