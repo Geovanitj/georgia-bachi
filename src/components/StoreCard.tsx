@@ -97,6 +97,9 @@ export function StoreCard({ store }: StoreCardProps) {
                     src={store.logo}
                     alt={`Logo ${store.nome}`}
                     className="dynamic-card-logo"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     onError={() => setLogoError(true)}
                   />
                 </div>

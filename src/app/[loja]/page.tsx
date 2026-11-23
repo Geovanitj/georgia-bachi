@@ -29,5 +29,12 @@ export default async function StorePage({ params }: PageProps) {
   const { loja } = await params;
   const store = await getStoreData(loja);
 
-  return <InstabioView store={store} showStoreCard={!!store} />;
+  return (
+    <>
+      {store?.logo && (
+        <link rel="preload" as="image" href={store.logo} fetchPriority="high" />
+      )}
+      <InstabioView store={store} showStoreCard={!!store} />
+    </>
+  );
 }
